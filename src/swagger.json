@@ -1,0 +1,333 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Desafio Introdução SOLID",
+    "description": "Documentação do Desafio Introdução SOLID",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/users" :{
+      "post": {
+        "tags": ["users"],
+        "summary": "Criar um novo usuário",
+        "requestBody":{
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "name": "Rocketseat",
+                "email": "teste@teste.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema":{
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "date"
+                    },
+                    "updated_at": {
+                      "type": "date"
+                    }
+                  }
+                },
+                "example": {
+                  "admin": "false",
+                  "id": "81586507-b366-47e0-b692-2c6774c62c56",
+                  "name": "Rocketseat",
+                  "email": "teste@teste.com",
+                  "created_at": "2022-03-27T12:42:18.771Z",
+                  "updated_at": "2022-03-27T12:42:18.771Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "This email is already in use."
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["users"],
+        "summary": "Retorna todos os usuários.",
+        "description": "Somente usuário admin pode acessar",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "admin": {
+                      "type":"boolean"
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type":"string"
+                    },
+                    "created_at": {
+                      "type": "date"
+                    },
+                    "updated_at": {
+                      "type": "date"
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "admin": "true",
+                    "id":"91586507-b366-47e0-b692-2c6774c62c56",
+                    "name": "Guilherme",
+                    "email":"teste@teste.com",
+                    "created_at":"2022-03-27T12:42:18.771Z",
+                    "updated_at":"2022-03-27T12:42:18.771Z"
+                  },
+                  {
+                    "admin": "false",
+                    "id":"71586507-b366-47e0-b692-2c6774c62c56",
+                    "name": "Claudia",
+                    "email":"teste@teste.com",
+                    "created_at":"2022-03-27T12:42:18.771Z",
+                    "updated_at":"2022-03-27T12:42:18.771Z"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Email já está sendo utilizado",
+            "content":{
+             "application/json": {
+               "schema": {
+                 "type": "object",
+                 "properties": {
+                   "error": {
+                     "type": "string"
+                   }
+                 }
+               },
+               "example": {
+                 "error":"User isn't an admin"
+               }
+             }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Retorna um usuário especifico.",
+        "description": "Somente usuário admin pode acessar",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description":" Operação realizada com sucesso",
+            "content":{
+              "application/json": {
+                "schema":{
+                  "type":"object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "date"
+                    },
+                    "updated_at": {
+                      "type": "date"
+                    }
+                  }
+                },
+                "example": {
+                  "admin": "false",
+                  "id": "41586547-b366-47e0-b692-2c6774c62c56",
+                  "name": "Guilherme",
+                  "email": "teste@teste.com",
+                  "created_at": "2022-03-27T12:42:18.771Z",
+                  "updated_at": "2022-03-27T12:42:18.771Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuario não existe",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "User isn't exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["users"],
+        "summary": "Torna um usuário em admin",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "date"
+                    },
+                    "updated_at": {
+                      "type": "date"
+                    }
+                  }
+                },
+                "example": {
+                  "admin": "true",
+                  "id": "12586547-c366-47e0-b692-2b6774c62c56",
+                  "name": "Guilherme",
+                  "email": "teste@teste.com",
+                  "created_at": "2022-03-27T12:42:18.771Z",
+                  "updated_at":"2022-03-27T12:42:18.771Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuario não existe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error":"User isn't exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
